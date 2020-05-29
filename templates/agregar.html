@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Restaurants</title>
+<link rel="stylesheet" type="text/css" href="../static/style.css" media="screen" />
+</head>
+
+<body style="background-color: white;">
+    <ul style="list-style-type: none;margin: 0;padding: 0;overflow: hidden;background-color: transparent;border-radius: 20px 20px 20px 20px;">
+        <li style="float: left;font-size: 20px;text-decoration: none;padding: 20px; width:8%;">
+            <a style="color: black;text-decoration: none;" href="/">Inicio</a>
+        </li>
+     </ul>
+     <h3 style="text-align:center;color: darkgray;">Nuevo restaurant</h3>
+    <div style="background-color: darkgray;font-size: 14px;display:block;margin:auto;width: 400px;height: 280px;border-radius: 20px;padding: 10px;">
+        
+        <form style="margin-top: 10px;" action="altaRestaurant" method="POST">
+            <p style="height: 18px;"><input style="width: 100%;" type="text" name="name" placeholder="Nombre del restaurant: "></p>
+            <p style="height: 18px;"><input style="width: 100%;" type="text" name="borough" placeholder="Ciudad: "></p>
+            <p style="height: 18px;"><input style="width: 100%;" type="text" name="street" placeholder="Dirección: "></p>
+            <p style="height: 18px;"><input style="width: 100%;" type="text" name="cuisine" placeholder="Tipo de cocina: "></p>
+            <p style="height: 15px;"><input style="width: 100%;" type="text" name="coord1" placeholder="Latitud: "></p>
+            <p style="height: 15px;"><input style="width: 100%;" type="text" name="coord0" placeholder="Longitud: "></p>
+            
+            <p style="margin-top: 30px;"><input style="display:block;margin:auto;background-color: gray;color: white;border-radius: 10px;" type="submit" value="GUARDAR"></p>
+            
+        </form>
+    </div>
+</body>
+</html>

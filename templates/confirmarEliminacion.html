@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>Personajes</title>
+<link rel="stylesheet" type="text/css" href="/static/css/style.css" media="screen" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+
+<body style="background-color: white;">
+
+     <div style="display:block;margin:auto;width: 700px;height: 300px;padding: 10px;text-align: center;">
+        
+        <h3 style="text-align: center;padding-top: 50px;">¿Seguro que quiere eliminar a </h3>
+        <h3 style="text-align: center;"> {% print(nombre)%}? </h3>
+        <div style=" display: flex;justify-content: center;" class="btn-group">
+            <form action="siEliminar" method="POST">
+                <input value="{{nombre}}" type="hidden" class="form-control" name="name" id="name">
+                <button style="padding-left:20px;border:transparent; background-color: transparent;font-size: 70px;color:green;padding: 50px;" type="submit"><i class="fa fa-check-circle" aria-hidden="true"></i></button>
+            </form>
+            <form action="/" method="POST">
+                <input value="{{nombre}}" type="hidden" class="form-control" name="name" id="name">
+                <button style="border:transparent; background-color: transparent;font-size: 70px;color: red;padding: 50px;" type="submit"><i class="fa fa-times" aria-hidden="true"></i></button>
+            </form>
+        </div>
+     </div>
+
+</body>
+
+</html>
