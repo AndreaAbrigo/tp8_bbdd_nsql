@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Restaurants</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+ 
+    <link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.css" />
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/MarkerCluster.Default.css" />
+ 
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+    <script type='text/javascript' src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'></script>
+    <script type='text/javascript' src='http://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/0.4.0/leaflet.markercluster.js'></script>
+  
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <style>body{background-color: white; color: black;} ul{list-style-type: none;margin-top: 2px;padding: 0px;overflow: hidden;background-color: transparent;border-radius: 20px;} li{float: left;font-size: 20px;text-decoration: none;padding: 10px;width:10%;height: 15px;} a{color: black;text-decoration: none;}</style>
+  </head>
+ 
+  <body>
+
+    <ul>
+      <li><a href="/">Inicio</a></li>
+      <li><a href="/agregar">Nuevo</a></li>
+      <li><a href="/about">About</a></li>
+      <li>
+        <div style="font-size: 20px;color:black;">
+          <form style="width:150px;" action="buscar" method="POST">
+              <input style="border:transparent; background-color: transparent;width:100px;font-size: 14px;" type="text" name="palabra" placeholder="Filtrar por tipo" />
+              <button style="border:transparent; background-color: transparent; color:black" type="submit"><i class="fa fa-search"></i></button>
+          </form> 
+        </div>
+      </li>
+   </ul>
+
+    <div id="map" style="width: 100hw; height: 90vh; color: black;"></div>
+
+    <script>
+        var nam=[]
+        var borough=[]
+        var street=[]
+        var cuisine=[]
+        var coord0=[]
+        var coord1=[]
+    </script>
+    {% for dato in datos %}
+        <script>
+        nam.push("{{ dato['name']}}")
+        borough.push("{{ dato['borough']}}")
+        street.push("{{ dato['street']}}")
+        cuisine.push("{{ dato['cuisine']}}")
+        coord0.push("{{ dato['coord0']}}")
+        coord1.push("{{ dato['coord1']}}")
+        </script>
+    {%endfor%}
+
+    <script type='text/javascript'>
+    var map = L.map( 'map', {
+       
+      }).setView([40.7060855, -73.9968643], 10);
+      
+      L.tileLayer( 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      subdomains: ['a','b','c']
+      }).addTo( map );
+
+      
+      var myIcon = L.icon({
+        iconUrl: "https://images.vexels.com/media/users/3/141915/isolated/preview/fa18fbc911311b5371870c880fa5f75a-pin-de-ubicaci--n-by-vexels.png",
+        iconSize: [29, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var americanIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2014/04/02/10/45/poi-304466__340.png",
+        iconSize: [22, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var pizzaIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2015/12/14/20/30/location-1093169__340.png",
+        iconSize: [22, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var chineseIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2020/05/03/11/08/navigation-5124633_960_720.png",
+        iconSize: [22, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var delicatessenIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2020/04/29/16/51/navigation-5109665__340.png",
+        iconSize: [22, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var mexicanIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2020/04/29/16/50/navigation-5109657__340.png",
+        iconSize: [29, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var mediterraneanIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2020/04/29/16/51/navigation-5109671__340.png",
+        iconSize: [29, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var cerveceriaIcon = L.icon({
+        iconUrl: "https://cdn.pixabay.com/photo/2012/04/10/22/43/beer-26722__340.png",
+        iconSize: [29, 24],
+        iconAnchor: [9, 21],
+        popupAnchor: [0, -14]
+      });
+
+      var markerClusters = L.markerClusterGroup();
+
+
+      for (var i=0; i<nam.length; i++){
+        nombre=nam[i]
+        var popup = nam[i] +
+                  '<br/><b>Ciudad:</b> ' + borough[i] +
+                  '<br/><b>Calle:</b> ' + street[i] +
+                  '<br/><b>Tipo cocina:</b> ' + cuisine[i] +
+                  '<ul style="text-align:center"><li style="padding-top:4px;"><form action="/quitar" method="POST"><input value="'+(nam[i])+'" type="hidden" class="form-control" name="name" id="name"><button style="border:transparent; background-color: transparent;color:black; font-size:20px" type="submit"><i class="fa fa-trash" aria-hidden="true"></i></button></form></li>'  +
+                  '<li style="padding-top:5px;"><form action="/editar" method="POST"><input value="'+(nam[i])+'" type="hidden" class="form-control" name="name" id="name"><button style="border:transparent; background-color: transparent;color:black; font-size:20px" type="submit"><i class="fa fa-edit" aria-hidden="true"></i></button></form></li></ul></center>';
+                  
+        if (cuisine[i] == "American"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: americanIcon} )
+                          .bindPopup( popup );
+        }
+        else if (cuisine[i] == "Pizza"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: pizzaIcon} )
+                          .bindPopup( popup );
+        }
+        else if (cuisine[i] == "Chinese"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: chineseIcon} )
+                          .bindPopup( popup );
+        }
+        else if (cuisine[i] == "Delicatessen"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: delicatessenIcon} )
+                          .bindPopup( popup );
+        }
+        else if (cuisine[i] == "Mexican"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: mexicanIcon} )
+                          .bindPopup( popup );
+        }
+        else if (cuisine[i] == "Mediterranean"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: mediterraneanIcon} )
+                          .bindPopup( popup );
+        }else if (cuisine[i] == "Cerveceria"){
+          var m = L.marker( [coord1[i], coord0[i]], {icon: cerveceriaIcon} )
+                          .bindPopup( popup );
+        }
+        else{
+          var m = L.marker( [coord1[i], coord0[i]], {icon: myIcon} )
+                          .bindPopup( popup );
+        }
+           
+        markerClusters.addLayer( m );
+      }
+
+      map.addLayer( markerClusters );
+    </script> 
+
+  </body>
+</html> 
